@@ -3,8 +3,8 @@
 ;Class: COMP 2655-002
 
 start:			; TO DO: fill in your code and inline doc. here
-	CR equ 13 ; constant CR = carriage return character
-	LF equ 10 ; constant LF = line feed character
+CR:	equ	13	; constant CR = carriage return character
+LF:	equ	10	; constant LF = line feed character
 
 
 		
