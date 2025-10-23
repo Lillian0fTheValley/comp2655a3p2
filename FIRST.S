@@ -19,7 +19,7 @@ input:	and.b	#%00000000,d0	;clears garbage bits out the lowest byte of d0
 	and.b	#%00000000,d0	;clears garbage bits out the lowest byte of d0
 	jsr	read_char	;reads third char into d0
 	move.b	d0,d3		;moves char ascii value into d3 lower byte
-
+				;comment
 
 		
 	jsr	exit
