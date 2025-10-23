@@ -6,6 +6,20 @@ start:			; TO DO: fill in your code and inline doc. here
 CR:	equ	13	; constant CR = carriage return character
 LF:	equ	10	; constant LF = line feed character
 
+;BEGIN INPUT SECTION
+input:	and.b	#%00000000,d0	;clears garbage bits out the lowest byte of d0
+	jsr	read_char	;read first char into d0
+	move.b	d0,d1		;moves char ascii value into d1 lower byte
+
+
+	and.b	#%00000000,d0	;clears garbage bits out the lowest byte of d0
+	jsr	read_char	;reads second char into d0
+	move.b	d0,d2		;moves char ascii value into d2 lower byte
+
+	and.b	#%00000000,d0	;clears garbage bits out the lowest byte of d0
+	jsr	read_char	;reads third char into d0
+	move.b	d0,d3		;moves char ascii value into d3 lower byte
+
 
 		
 	jsr	exit
