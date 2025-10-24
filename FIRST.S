@@ -34,7 +34,28 @@ math:	sub.b	#'0',d1	;converts ascii value to int for math
 	mulu.w	#10,d1	;((a * 10) + b)
 	add.l	d3,d1	;d1 = x = ((a * 10) + b)10 + c
 
+	move.l	d1,d4	;d4 = x
+	mulu.w	d1,d4	;d4 = x^2
+	move.l	d4,d5	;d5 = x^2
 
+	lsl.l	#8,d4	;d4 = 256x^2
+	lsl.l	#5,d5	;d5 = 32x^2
+	add.l	d5,d4	;d4 = 288x^2
+
+	move.l	d1,d5	;d5 = x
+	mulu.w	#3171,d5	;d5 = 3171x
+	divu.w	#73,d5	;d5 = 3171x/73
+	add.w	#5286,d5	;d5 = (3171x/73) + 5287
+
+	divu.w	#10000,d5	;d5 = ((3171x/73) + 5287) / 10000 need to shift the word to get remainder
+	lsr.w	#8,d5	;d5 = ((3171x/73) + 5287) % 10000
+	
+	ext.l	d5	;need to extend d5 to l for subtraction
+	sub.l	d5,d4	;d4 = (((288x^2) - (3171x/73) + 5287) % 10000)
+
+	divu.w	#10,d4	;d4 = (((288x^2) - (3171x/73) + 5287) % 10000) / 10
+	
+	
 	
 		
 	
