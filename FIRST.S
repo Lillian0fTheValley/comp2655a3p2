@@ -21,25 +21,22 @@ input:	and.b	#$00000000,d0	;clears garbage bits out of d0
 	move.b	d0,d3		;moves char ascii value into d3 lower byte
 				;comment
 
-xcalc:	sub.b	#'0',d1	;converts ascii value to int for math
+math:	sub.b	#'0',d1	;converts ascii value to int for math
 	sub.b	#'0',d2
 	sub.b	#'0',d3
 
-	ext.w	d1	;extending d1 to a word
-	and.w	#$00FF,d1	;clearing garbage bits out of upper byte of d1 word
+	ext.w	d1	;extending d1 to a word for multiplication
+	ext.l	d2	;d2 needs to be l to add to d1
+	ext.l	d3	;d3 needs to be l to add with d1
 
-	ext.w	d2
-	and.w	#$00FF,d2
-
-	ext.w	d3
-	and.w	#$00FF,d3
-
-	mulu.w	#10,d1	;(a * 10)
-	add.w	d2,d1	;(a * 10) + b
+	mulu.w	#10,d1	;(a * 10) d1 is L now
+	add.l	d2,d1	;(a * 10) + b
 	mulu.w	#10,d1	;((a * 10) + b)
-	add.w	d3,d1	;((a * 10) + b) + c = x
+	add.l	d3,d1	;d1 = x = ((a * 10) + b)10 + c
 
-math:		
+
+	
+		
 	
 		
 	jsr	exit
