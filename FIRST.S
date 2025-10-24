@@ -7,7 +7,7 @@ CR	equ	13	; constant CR = carriage return character
 LF	equ	10	; constant LF = line feed character
 
 
-input:	and.b	#%00000000,d0	;clears garbage bits out the lowest byte of d0
+input:	and.b	#$00000000,d0	;clears garbage bits out of d0
 	jsr	read_char	;read first char into d0
 	move.b	d0,d1		;moves char ascii value into d1 lower byte
 
@@ -39,7 +39,7 @@ xcalc:	sub.b	#'0',d1	;converts ascii value to int for math
 	mulu.w	#10,d1	;((a * 10) + b)
 	add.w	d3,d1	;((a * 10) + b) + c = x
 
-math:	
+math:		
 	
 		
 	jsr	exit
