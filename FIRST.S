@@ -45,12 +45,12 @@ math:	sub.b	#'0',d1	;converts ascii value to int for math
 	move.l	d1,d5	;d5 = x
 	mulu.w	#3171,d5	;d5 = 3171x
 	divu.w	#73,d5	;d5 = 3171x/73
+	and.l	#$0000FFFF,d5	;clearing remainder out of top word of d5 for addition
 	add.w	#5286,d5	;d5 = (3171x/73) + 5287
 
 	divu.w	#10000,d5	;d5 = ((3171x/73) + 5287) / 10000 need to shift the word to get remainder
-	lsr.w	#8,d5	;d5 = ((3171x/73) + 5287) % 10000
+	lsr.l	#8,d5	;d5 = ((3171x/73) + 5287) % 10000
 	
-	ext.l	d5	;need to extend d5 to l for subtraction
 	sub.l	d5,d4	;d4 = (((288x^2) - (3171x/73) + 5287) % 10000)
 
 	divu.w	#10,d4	;d4 = (((288x^2) - (3171x/73) + 5287) % 10000) / 10
