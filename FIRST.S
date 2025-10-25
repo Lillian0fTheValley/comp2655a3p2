@@ -10,16 +10,27 @@ LF	equ	10	; constant LF = line feed character
 input:	and.b	#$00000000,d0	;clears garbage bits out of d0
 	jsr	read_char	;read first char into d0
 	move.b	d0,d1		;moves char ascii value into d1 lower byte
+	move.b	#CR,d0
+	jsr	write_char
+	move.b	#LF,d0
+	jsr	write_char
 
 
 	and.b	#%00000000,d0	;clears garbage bits out the lowest byte of d0
 	jsr	read_char	;reads second char into d0
 	move.b	d0,d2		;moves char ascii value into d2 lower byte
+	move.b	#CR,d0
+	jsr	write_char
+	move.b	#LF,d0
+	jsr	write_char
 
 	and.b	#%00000000,d0	;clears garbage bits out the lowest byte of d0
 	jsr	read_char	;reads third char into d0
 	move.b	d0,d3		;moves char ascii value into d3 lower byte
-				;comment
+	move.b	#CR,d0
+	jsr	write_char
+	move.b	#LF,d0
+	jsr	write_char
 
 math:	sub.b	#'0',d1	;converts ascii value to int for math
 	sub.b	#'0',d2
@@ -52,17 +63,39 @@ math:	sub.b	#'0',d1	;converts ascii value to int for math
 
 	divu.w	#10000,d4	;d4 = (288x^2 - (3171x/73) + 5287) / 10000 need to swap the word to get remainder
 	swap	d4	;d4 = (288x^2 - (3171x/73) + 5287) % 10000
-	and.l	#$0000FFFF,d4	clearing out higher word to prep for division
-	divu.w	#10,d4	;d4 = ((288x^2 - (3171x/73) + 5287) % 10000) / 10	
+	and.l	#$0000FFFF,d4	;clearing out higher word to prep for division
+	divu.w	#10,d4	;d4 = y = ((288x^2 - (3171x/73) + 5287) % 10000) / 10
+	and.l	$0000FFFF,d4	;clearing out higher word to get rid of remainder
 
+output:	move.l	d4,d0	;copy to d0 for output
+	divu.w	#100,d0	;isolating 100s digit
+	and.l	#0000FFFF	;clearing out remainder
+	jsr	write_char	;write hundreds digit
+
+	move.l	d4,d0	;copy to d0 for output
+	divu.w	#10,d0	;y / 10
+	and.l	#$0000FFFF,d0
+	divu.w	#10,d0	;(y / 10) / 10
+	swap	d0	;(y / 10) % 10
+	and.l	#$0000FFFF,d0	;clear upper word out for output
+	jsr	write_char
+
+	move.l	d4,d0	;copy to d0 for output
+	divu.w	#10,d0	;
+	swap	d0	;y % 10
+	and.l	#$0000FFFF,d0	;clear upper word out for output
+	jsr	write_char	
 	
+	move.l	#CR,d0	
+	jsr	write_char
+	move.l	#LF,d0
+	jsr	write_char
 	
 	
 		
 	
 		
 	jsr	exit
-
 
 
 
