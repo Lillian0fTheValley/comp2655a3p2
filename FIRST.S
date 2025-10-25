@@ -1,7 +1,6 @@
 ;Student: Lillian Ma
 ;Professor: Terrance Mok
 ;Class: COMP 2655-002
-
 start:			; TO DO: fill in your code and inline doc. here
 CR	equ	13	; constant CR = carriage return character
 LF	equ	10	; constant LF = line feed character
@@ -69,7 +68,7 @@ math:	sub.b	#'0',d1	;converts ascii value to int for math
 
 output:	move.l	d4,d0	;copy to d0 for output
 	divu.w	#100,d0	;isolating 100s digit
-	and.l	#0000FFFF,d0	;clearing out remainder
+	and.l	#$0000FFFF,d0	
 	add.l	#'0',d0
 	jsr	write_char	;write hundreds digit
 
