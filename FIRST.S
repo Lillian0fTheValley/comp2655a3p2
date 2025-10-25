@@ -65,11 +65,11 @@ math:	sub.b	#'0',d1	;converts ascii value to int for math
 	swap	d4	;d4 = (288x^2 - (3171x/73) + 5287) % 10000
 	and.l	#$0000FFFF,d4	;clearing out higher word to prep for division
 	divu.w	#10,d4	;d4 = y = ((288x^2 - (3171x/73) + 5287) % 10000) / 10
-	and.l	$0000FFFF,d4	;clearing out higher word to get rid of remainder
+	and.l	#$0000FFFF,d4	;clearing out higher word to get rid of remainder
 
 output:	move.l	d4,d0	;copy to d0 for output
 	divu.w	#100,d0	;isolating 100s digit
-	and.l	#0000FFFF	;clearing out remainder
+	and.l	#0000FFFF,d0	;clearing out remainder
 	jsr	write_char	;write hundreds digit
 
 	move.l	d4,d0	;copy to d0 for output
