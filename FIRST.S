@@ -70,6 +70,7 @@ math:	sub.b	#'0',d1	;converts ascii value to int for math
 output:	move.l	d4,d0	;copy to d0 for output
 	divu.w	#100,d0	;isolating 100s digit
 	and.l	#0000FFFF,d0	;clearing out remainder
+	add.l	#'0',d0
 	jsr	write_char	;write hundreds digit
 
 	move.l	d4,d0	;copy to d0 for output
@@ -78,12 +79,14 @@ output:	move.l	d4,d0	;copy to d0 for output
 	divu.w	#10,d0	;(y / 10) / 10
 	swap	d0	;(y / 10) % 10
 	and.l	#$0000FFFF,d0	;clear upper word out for output
+	add.l	#'0',d0
 	jsr	write_char
 
 	move.l	d4,d0	;copy to d0 for output
 	divu.w	#10,d0	;
 	swap	d0	;y % 10
 	and.l	#$0000FFFF,d0	;clear upper word out for output
+	add.l	#'0',d0
 	jsr	write_char	
 	
 	move.l	#CR,d0	
