@@ -46,15 +46,15 @@ math:	sub.b	#'0',d1	;converts ascii value to int for math
 	mulu.w	#3171,d5	;d5 = 3171x
 	divu.w	#73,d5	;d5 = 3171x/73
 	and.l	#$0000FFFF,d5	;clearing remainder out of top word of d5 for addition
-	add.w	#5286,d5	;d5 = (3171x/73) + 5287
+	sub.l	d5,d4	;d4 = 288x^2 - 3171x/73
+	add.l	#5286,d4	;d4 = 288x^2 - 3171x/73 + 5286
 
-	divu.w	#10000,d5	;d5 = ((3171x/73) + 5287) / 10000 need to swap the word to get remainder
-	swap	d5	;d5 = ((3171x/73) + 5287) % 10000
-	and.l	#$0000FFFF,d5	clearing out higher word
 
-	sub.l	d5,d4	;d4 = (((288x^2) - (3171x/73) + 5287) % 10000)
+	divu.w	#10000,d4	;d4 = (288x^2 - (3171x/73) + 5287) / 10000 need to swap the word to get remainder
+	swap	d4	;d4 = (288x^2 - (3171x/73) + 5287) % 10000
+	and.l	#$0000FFFF,d4	clearing out higher word to prep for division
+	divu.w	#10,d4	;d4 = ((288x^2 - (3171x/73) + 5287) % 10000) / 10	
 
-	divu.w	#10,d4	;d4 = (((288x^2) - (3171x/73) + 5287) % 10000) / 10
 	
 	
 	
