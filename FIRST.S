@@ -6,38 +6,34 @@ CR	equ	13	; constant CR = carriage return character
 LF	equ	10	; constant LF = line feed character
 
 
-input:	and.b	#$00000000,d0	;clears garbage bits out of d0
+input:	clr.w	d0	;clears garbage bits out of d0
 	jsr	read_char	;read first char into d0
-	move.b	d0,d1		;moves char ascii value into d1 lower byte
-	move.b	#CR,d0
+	move.w	d0,d1		;moves char ascii value into d1
+	move.w	#CR,d0
 	jsr	write_char
-	move.b	#LF,d0
+	move.w	#LF,d0
 	jsr	write_char
 
 
-	and.b	#%00000000,d0	;clears garbage bits out the lowest byte of d0
+	clr.l	d0
 	jsr	read_char	;reads second char into d0
-	move.b	d0,d2		;moves char ascii value into d2 lower byte
-	move.b	#CR,d0
+	move.l	d0,d2		;moves char ascii value into d2
+	move.w	#CR,d0
 	jsr	write_char
-	move.b	#LF,d0
+	move.w	#LF,d0
 	jsr	write_char
 
-	and.b	#%00000000,d0	;clears garbage bits out the lowest byte of d0
+	clr.l	d0
 	jsr	read_char	;reads third char into d0
-	move.b	d0,d3		;moves char ascii value into d3 lower byte
-	move.b	#CR,d0
+	move.l	d0,d3		;moves char ascii value into d3
+	move.w	#CR,d0
 	jsr	write_char
-	move.b	#LF,d0
+	move.w	#LF,d0
 	jsr	write_char
 
-math:	sub.b	#'0',d1	;converts ascii value to int for math
-	sub.b	#'0',d2
-	sub.b	#'0',d3
-
-	ext.w	d1	;extending d1 to a word for multiplication
-	ext.l	d2	;d2 needs to be l to add to d1
-	ext.l	d3	;d3 needs to be l to add with d1
+math:	sub.w	#'0',d1	;converts ascii value to int for math
+	sub.l	#'0',d2
+	sub.l	#'0',d3
 
 	mulu.w	#10,d1	;(a * 10) d1 is L now
 	add.l	d2,d1	;(a * 10) + b
