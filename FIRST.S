@@ -9,7 +9,7 @@ LF	equ	10	; constant LF = line feed character
 input:	clr.w	d0	;clears garbage bits out of d0
 	jsr	read_char	;read first char into d0
 	move.w	d0,d1		;moves char ascii value into d1
-	move.w	#CR,d0
+	move.w	#CR,d0	;carriage return and line feed
 	jsr	write_char
 	move.w	#LF,d0
 	jsr	write_char
